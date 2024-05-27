@@ -44,7 +44,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <a className=" text-xl">daisyUI</a>
+        <a className=" text-xl">food</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="flex items-center gap-6 px-1">

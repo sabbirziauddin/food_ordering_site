@@ -12,7 +12,7 @@ import PrivateRoute from "./private/PrivateRoute";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import ManageAllRecipe from "../pages/Dashboard/ManageAllRecipe";
 import AddRecipe from "../pages/Dashboard/AddRecipe";
-
+import EditRecipe from "../pages/Dashboard/EditRecipe";
 
 export const router = createBrowserRouter([
   {
@@ -53,16 +53,17 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardHome></DashboardHome>
-          
+        element: <DashboardHome></DashboardHome>,
       },
       {
         path: "manage-recipes",
-        element:<ManageAllRecipe></ManageAllRecipe>
+        element: <ManageAllRecipe></ManageAllRecipe>,
       },
-      {path: "add-recipe",
-      element: <AddRecipe></AddRecipe>
-      }
+      { path: "add-recipe", element: <AddRecipe></AddRecipe> },
+      {
+        path: "edit-recipe/:id",
+        element: <EditRecipe />,
+      },
     ],
   },
 ]);

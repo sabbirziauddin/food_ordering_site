@@ -1,19 +1,31 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddRecipe = () => {
-  const [categories, setCategories] = useState([]);
-  const [formData, setFormData] = useState({
-    id: "",
+const EditRecipe = () => {
+  const { id } = useParams();
+  const [recipeDetails, setRecipeDetails] = useState({
     title: "",
     price: "",
     category: "",
     description: "",
   });
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    async function fetchRecipe() {
+      try {
+        const response = await axios.get(`http://localhost:3000/recipes/${id}`);
+        if (response.status === 200) {
+          setRecipeDetails(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching recipe:", error);
+      }
+    }
+
     async function fetchCategories() {
       try {
         const response = await axios.get("http://localhost:3000/categories");
@@ -26,64 +38,39 @@ const AddRecipe = () => {
     }
 
     fetchCategories();
-  }, []);
+    fetchRecipe();
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setRecipeDetails((prevDetails) => ({
+      ...prevDetails,
       [name]: value,
-    });
+    }));
   };
 
   const handleCreateRecipe = async (e) => {
     e.preventDefault();
-
-    const isConfirmed = window.confirm(
-      "Are you sure you want to add this recipe?"
-    );
-    if (!isConfirmed) {
-      return; // Do nothing if not confirmed
-    }
-
     try {
-      await axios.post("http://localhost:3000/recipes", formData);
-      toast.success("Recipe added successfully!");
-      // Clear form values
-      setFormData({
-        id: "",
-        title: "",
-        price: "",
-        category: "",
-        description: "",
-      });
+      await axios.put(`http://localhost:3000/recipes/${id}`, recipeDetails);
+      toast.success("Recipe updated successfully!");
     } catch (error) {
-      console.error("Error adding recipe:", error);
-      toast.error("Failed to add recipe.");
+      console.error("Error updating recipe:", error);
+      toast.error("Failed to update recipe.");
     }
   };
 
   return (
     <div className="w-full px-16">
-      <h1 className="text-4xl mb-4">Add Recipe</h1>
+      <h1 className="text-4xl mb-4">Edit Recipe</h1>
       <form onSubmit={handleCreateRecipe} className="w-full">
-        <div className="mb-4">
-          <label htmlFor="id">Id </label>
-          <input
-            type="text"
-            name="id"
-            value={formData.id}
-            onChange={handleInputChange}
-            className="w-full py-3 px-5 border"
-          />
-        </div>
         <div className="mb-4">
           <label htmlFor="title">Title </label>
           <input
+            value={recipeDetails.title}
+            onChange={handleInputChange}
             type="text"
             name="title"
-            value={formData.title}
-            onChange={handleInputChange}
             className="w-full py-3 px-5 border"
           />
         </div>
@@ -92,7 +79,7 @@ const AddRecipe = () => {
           <input
             type="number"
             name="price"
-            value={formData.price}
+            value={recipeDetails.price}
             onChange={handleInputChange}
             className="w-full py-3 px-5 border"
           />
@@ -101,11 +88,10 @@ const AddRecipe = () => {
           <label htmlFor="category">Category </label>
           <select
             name="category"
-            value={formData.category}
+            value={recipeDetails.category}
             onChange={handleInputChange}
             className="w-full py-3 px-5 border"
           >
-            <option value="">Select a category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.title}>
                 {category.title}
@@ -113,20 +99,22 @@ const AddRecipe = () => {
             ))}
           </select>
         </div>
+
         <div className="mb-4">
           <label htmlFor="description">Description </label>
           <textarea
-            name="description"
-            value={formData.description}
+            value={recipeDetails.description}
             onChange={handleInputChange}
+            name="description"
             className="w-full py-3 px-5 border"
           />
         </div>
+
         <div className="mb-4">
           <input
             type="submit"
-            value="Add Recipe"
-            className="w-full btn py-3 px-5 border btn-primary"
+            value="Update Recipe"
+            className="w-full btn py-3 px-5 border btn-neutral"
           />
         </div>
       </form>
@@ -135,4 +123,4 @@ const AddRecipe = () => {
   );
 };
 
-export default AddRecipe;
+export default EditRecipe;

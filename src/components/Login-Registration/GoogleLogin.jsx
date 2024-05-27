@@ -10,7 +10,7 @@ const GoogleLogin = () => {
       };
 
     return (
-      <button onClick={handleGoogleSignIn} className="btn w-full">
+      <button onClick={handleGoogleSignIn} className="btn w-1/2">
         <div className="flex items-center gap-2">
           <FcGoogle size={24} />
           <p>Google</p>
