@@ -38,6 +38,7 @@ const AuthProvider = ({children}) =>{
           if (currentUser) {
             setUser(currentUser);
             console.log(currentUser);
+            console.log("user from :", user.email);
           }
         });
         return ()=>{

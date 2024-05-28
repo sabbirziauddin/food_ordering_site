@@ -1,7 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const ProductRow = ({ product }) => {
+const ProductRow = ({ product, recipes, setRecipes }) => {
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to add this recipe?"
+    );
+    if (!isConfirmed) {
+      return; // Do nothing if not confirmed
+    }
+    const response = await axios.delete(
+      `http://localhost:3000/recipes/${product?.id}`
+    );
+    if (response.status === 200) {
+      toast.success("Recipe deleted successfully!");
+      setRecipes(recipes.filter((recipe) => recipe.id !== product.id));
+    } else {
+      toast.error("Failed to delete recipe.");
+    }
+  };
+
   return (
     <tr className="hover:bg-gray-100">
       <th className="p-4 border-t border-gray-200">{product?.id}</th>
@@ -15,7 +35,9 @@ const ProductRow = ({ product }) => {
         >
           Edit
         </Link>
-        <button className="btn btn-xs btn-error">Delete</button>
+        <button onClick={handleDelete} className="btn btn-xs btn-error">
+          Delete
+        </button>
       </td>
     </tr>
   );

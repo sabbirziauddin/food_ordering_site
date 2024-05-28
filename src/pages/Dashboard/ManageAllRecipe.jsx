@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import ProductRow from "../../cards /ProductRow";
+import { ToastContainer } from "react-toastify";
 
 const ManageAllRecipe = () => {
   const [recipes, setRecipes] = React.useState([]);
@@ -30,10 +31,16 @@ const ManageAllRecipe = () => {
         </thead>
         <tbody>
           {recipes?.map((product) => (
-            <ProductRow key={product?.id} product={product} />
+            <ProductRow
+              key={product?.id}
+              product={product}
+              recipes={recipes}
+              setRecipes={setRecipes}
+            />
           ))}
         </tbody>
       </table>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };
