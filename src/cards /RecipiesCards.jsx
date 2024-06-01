@@ -1,9 +1,13 @@
+import { Link } from "react-router-dom";
+import imaage from "../assets/pizza-1.png";
+
 const RecipiesCards = ({ recipe }) => {
+  const { id } = recipe;
   return (
     <div className="card bg-base-300 shadow-xl rounded-lg overflow-hidden ">
       <figure>
         <img
-          src={recipe?.image || "default-image.jpg"}
+          src={imaage || "default-image.jpg"}
           alt={recipe?.title}
           className="w-full h-48 object-cover"
         />
@@ -25,8 +29,13 @@ const RecipiesCards = ({ recipe }) => {
             </a>
           )}
         </p>
-        <div className="card-actions justify-end">
-          <div className="badge badge-outline p-2">{recipe?.category}</div>
+        <div className="card-actions justify-between">
+          <div className="badge badge-outline p-4">{recipe?.category}</div>
+          <Link to={`/SingleRecipeDetails/${id}`}>
+            <button className=" badge badge-outline bg-blue-500 text-white p-4 ">
+              View Recipe
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import DashboardHome from "../pages/Dashboard/DashboardHome";
 import ManageAllRecipe from "../pages/Dashboard/ManageAllRecipe";
 import AddRecipe from "../pages/Dashboard/AddRecipe";
 import EditRecipe from "../pages/Dashboard/EditRecipe";
+import SingleRecipeDetails from "../cards /SingleRecipeDetails";
 
 export const router = createBrowserRouter([
   {
@@ -33,12 +34,20 @@ export const router = createBrowserRouter([
         element: <About></About>,
       },
       {
+        path: "/SingleRecipeDetails/:id",
+        element: <SingleRecipeDetails></SingleRecipeDetails>,
+      },
+      {
         path: "/login",
         element: <Login></Login>,
       },
       {
         path: "/register",
         element: <Registration></Registration>,
+      },
+      {
+        path: "/SingleRecipeDetails/:id",
+        element: <SingleRecipeDetails></SingleRecipeDetails>,
       },
     ],
   },
