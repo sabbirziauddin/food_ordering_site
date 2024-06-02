@@ -10,10 +10,9 @@ const Home = () => {
   const [catagroies, setCatagories] = useState();
 
   useEffect(() => {
-
     async function load() {
       //get recipies
-      const recipieRes = await fetch("http://localhost:3000/recipes");
+      const recipieRes = await fetch("http://localhost:4000/recipes");
       const recipiData = await recipieRes.json();
       setRecipies(recipiData);
 
@@ -33,10 +32,9 @@ const Home = () => {
       <div className="container mx-auto">
         <h1 className="text-4xl my-20 text-center ">Our Recipe catagroy</h1>
         <div className="grid grid-cols-5 gap-6">
-          {catagroies
-            ?.map((catagory) => (
-              <CatagoriesCards key={catagory.id} catagory={catagory} />
-            ))}
+          {catagroies?.map((catagory) => (
+            <CatagoriesCards key={catagory.id} catagory={catagory} />
+          ))}
         </div>
       </div>
 
@@ -47,7 +45,7 @@ const Home = () => {
             ?.reverse()
             ?.slice(0, 4)
             ?.map((recipe) => (
-              <RecipiesCards key={recipe?.id} recipe={recipe} />
+              <RecipiesCards key={recipe?._id} recipe={recipe} />
             ))}
         </div>
       </div>

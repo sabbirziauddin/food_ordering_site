@@ -7,8 +7,8 @@ const ManageAllRecipe = () => {
   const [recipes, setRecipes] = React.useState([]);
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("http://localhost:3000/recipes/");
-      console.log(response);
+      const response = await axios.get("http://localhost:4000/recipes/");
+      console.log(response.data);
       if (response.status === 200) {
         setRecipes(response?.data);
       }
@@ -32,10 +32,11 @@ const ManageAllRecipe = () => {
         <tbody>
           {recipes?.map((product) => (
             <ProductRow
-              key={product?.id}
+              key={product?._id}
               product={product}
               recipes={recipes}
               setRecipes={setRecipes}
+              _id={product?._id}
             />
           ))}
         </tbody>

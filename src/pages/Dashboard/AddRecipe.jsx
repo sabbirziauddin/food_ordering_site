@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 const AddRecipe = () => {
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
-    id: "",
     title: "",
     price: "",
     category: "",
@@ -47,16 +46,20 @@ const AddRecipe = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/recipes", formData);
+      const reqRecipe = await axios.post(
+        "http://localhost:4000/recipes",
+        formData
+      );
+      console.log("Recipe added:", reqRecipe.data);
       toast.success("Recipe added successfully!");
+
       // Clear form values
-      setFormData({
-        id: "",
+      /*  setFormData({
         title: "",
         price: "",
         category: "",
         description: "",
-      });
+      }); */
     } catch (error) {
       console.error("Error adding recipe:", error);
       toast.error("Failed to add recipe.");
@@ -67,16 +70,6 @@ const AddRecipe = () => {
     <div className="w-full px-16">
       <h1 className="text-4xl mb-4">Add Recipe</h1>
       <form onSubmit={handleCreateRecipe} className="w-full">
-        <div className="mb-4">
-          <label htmlFor="id">Id </label>
-          <input
-            type="text"
-            name="id"
-            value={formData.id}
-            onChange={handleInputChange}
-            className="w-full py-3 px-5 border"
-          />
-        </div>
         <div className="mb-4">
           <label htmlFor="title">Title </label>
           <input
